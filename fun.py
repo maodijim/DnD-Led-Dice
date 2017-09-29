@@ -53,7 +53,7 @@ def dragon(turn = True):
         ]
 
     sense.set_pixels(image)
-    
+
     if turn:
         for r in angles:
             sense.set_rotation(r)
@@ -73,28 +73,28 @@ def happyFace(turn = True):
         for r in angles:
             sense.set_rotation(r)
             sleep(0.3)
-    
+
 def rollDice(message, printDice = True):
     if message == 'd20' or message == '20':
-        roll = str(randint(1,20))        
+        roll = str(randint(1,20))
     elif message == 'd12' or message == '12':
-        roll = str(randint(1,12))        
+        roll = str(randint(1,12))
     elif message == 'd8' or message == '8':
-        roll = str(randint(1,8))        
+        roll = str(randint(1,8))
     elif message == 'd10' or message == '10':
-        roll = str(randint(1,10))        
+        roll = str(randint(1,10))
     elif message == 'd6' or message == '6':
-        roll = str(randint(1,6))        
+        roll = str(randint(1,6))
     elif message == 'd4' or message == '4':
-        roll = str(randint(1,4))        
+        roll = str(randint(1,4))
     else:
         roll = 'Error'
 
     if printDice:
-        print('roll: ' + roll)    
-        
+        print('roll: ' + roll)
+
     return roll
-        
+
 def inputMessage(e,message = None,process = None):
     try:
         if not message:
@@ -130,11 +130,13 @@ def joystick(e):
             idle = False
             if current_position < len(menu):
                 current_position += 1
+            sense.set_rotation(0)
             sense.show_message(menu[current_position-1], 0.05, text_colour=(200,200,200))
         elif event.direction == 'down' and (event.action == 'pressed' or event.action == 'held'):
             idle = False
             if current_position > 1:
                 current_position -= 1
+            sense.set_rotation(0)
             sense.show_message(menu[current_position-1], 0.05, text_colour=(200,200,200))
         elif event.direction == 'middle' and event.action == 'held':
             idle = True
@@ -142,7 +144,7 @@ def joystick(e):
         if not idle:
             happyFace(False)
 
-def movementDetec(e):    
+def movementDetec(e):
     x = round(sense.get_accelerometer_raw()['x'], 2)
     y = round(sense.get_accelerometer_raw()['y'], 2)
     z = round(sense.get_accelerometer_raw()['z'], 2)
@@ -165,10 +167,10 @@ def movementDetec(e):
         z = z_tmp
 
 
-        
+
 if __name__ == '__main__':
     arrB(False)
-    #happyFace(False)    
+    #happyFace(False)
     threads = []
     e = threading.Event()
     t1 = threading.Thread(target=inputMessage, args=(e,))
@@ -182,4 +184,3 @@ if __name__ == '__main__':
     for i in threads:
         i.join()
     sense.show_letter(' ')
-    
