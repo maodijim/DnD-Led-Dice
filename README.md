@@ -24,4 +24,9 @@ Or use daemon program such as PM2 to keep the program running in the background.
 <img src="/dice.gif?raw=true">
 
 #### Method 2:
-Using the IDE to enter the dice type you want to roll (4,6,8,10,12,20)
+Run the file using IDE or terminal then enter the dice type you want to roll (4,6,8,10,12,20)
+
+Enter 'dice type di' for disadvantage  EX. '20 di'  will roll d20 twice and output lower number
+Enter 'dice type ad' for advantage     EX. '20 ad'  will roll d20 twice and output higher number
+
+<img src="/dice_input.png?raw=true">

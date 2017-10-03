@@ -34,7 +34,7 @@ def arrB(turn = True):
     if turn:
         for r in angles:
             sense.set_rotation(r)
-            sleep(0.3)
+            sleep(0.1)
 
 def dragon(turn = True):
     r = (255,0,0)
@@ -57,7 +57,7 @@ def dragon(turn = True):
     if turn:
         for r in angles:
             sense.set_rotation(r)
-            sleep(0.3)
+            sleep(0.1)
 
 def happyFace(turn = True):
     sense.set_pixel(2, 2, (0, 0, 255))
@@ -72,28 +72,89 @@ def happyFace(turn = True):
     if turn:
         for r in angles:
             sense.set_rotation(r)
-            sleep(0.3)
+            sleep(0.1)
 
-def rollDice(message, printDice = True):
+def rollDice(message, printDice = True, extra = None):
+    message_arr = message.split(' ')
+    message = message_arr[0]
+    sec_roll = None
     if message == 'd20' or message == '20':
-        roll = str(randint(1,20))
+        roll = randint(1,20)
     elif message == 'd12' or message == '12':
-        roll = str(randint(1,12))
+        roll = randint(1,12)
     elif message == 'd8' or message == '8':
-        roll = str(randint(1,8))
+        roll = randint(1,8)
     elif message == 'd10' or message == '10':
-        roll = str(randint(1,10))
+        roll = randint(1,10)
     elif message == 'd6' or message == '6':
-        roll = str(randint(1,6))
+        roll = randint(1,6)
     elif message == 'd4' or message == '4':
-        roll = str(randint(1,4))
+        roll = randint(1,4)
     else:
         roll = 'Error'
 
-    if printDice:
-        print('roll: ' + roll)
+    # Handling disadvantage and advantage roll
+    if extra == 'di':  # roll in disadvantage
+        print('first roll: ' + str(roll))
+        if message == 'd20' or message == '20':
+            sec_roll = randint(1,20)
+            if(sec_roll < roll):
+                roll = sec_roll
+        elif message == 'd12' or message == '12':
+            sec_roll = randint(1,12)
+            if(sec_roll < roll):
+                roll = sec_roll
+        elif message == 'd8' or message == '8':
+            sec_roll = randint(1,8)
+            if(sec_roll < roll):
+                roll = sec_roll
+        elif message == 'd10' or message == '10':
+            sec_roll = randint(1,10)
+            if(sec_roll < roll):
+                roll = sec_roll
+        elif message == 'd6' or message == '6':
+            sec_roll = randint(1,6)
+            if(sec_roll < roll):
+                roll = sec_roll
+        elif message == 'd4' or message == '4':
+            sec_roll = randint(1,4)
+            if(sec_roll < roll):
+                roll = sec_roll
+    elif extra == 'ad':     #roll in advantage
+        print('first roll: ' + str(roll))
+        if message == 'd20' or message == '20':
+            sec_roll = randint(1,20)
+            if(sec_roll > roll):
+                roll = sec_roll
+        elif message == 'd12' or message == '12':
+            sec_roll = randint(1,12)
+            if(sec_roll > roll):
+                roll = sec_roll
+        elif message == 'd8' or message == '8':
+            sec_roll = randint(1,8)
+            if(sec_roll > roll):
+                roll = sec_roll
+        elif message == 'd10' or message == '10':
+            sec_roll = randint(1,10)
+            if(sec_roll > roll):
+                roll = sec_roll
+        elif message == 'd6' or message == '6':
+            sec_roll = randint(1,6)
+            if(sec_roll > roll):
+                roll = sec_roll
+        elif message == 'd4' or message == '4':
+            sec_roll = randint(1,4)
+            if(sec_roll > roll):
+                roll = sec_roll
 
-    return roll
+    if sec_roll:
+        print('sec roll:' + str(sec_roll))
+
+    if printDice:
+        print('roll: ' + str(roll))
+
+
+    return str(roll)
 
 def inputMessage(e,message = None,process = None):
     try:
@@ -105,6 +166,24 @@ def inputMessage(e,message = None,process = None):
             sense.show_message('')
             e.set()
             raise ValueError('Program Exit')
+        elif 'di' in message:
+            arrB()
+            roll = rollDice(message, True, 'di')
+            process = Popen(['python3', './fun1.py', roll])
+            message = input('Type of dice (type "q" to quit):')
+            process.kill()
+            sense.show_message('')
+            happyFace(False)
+            inputMessage(e, message, process)
+        elif 'ad' in message:
+            arrB()
+            roll = rollDice(message, True, 'ad')
+            process = Popen(['python3', './fun1.py', roll])
+            message = input('Type of dice (type "q" to quit):')
+            process.kill()
+            sense.show_message('')
+            happyFace(False)
+            inputMessage(e, message, process)
         else:
             arrB()
             roll = rollDice(message)
@@ -167,7 +246,7 @@ def movementDetec(e):
         z = z_tmp
 
 
-
+        
 if __name__ == '__main__':
     arrB(False)
     #happyFace(False)
