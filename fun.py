@@ -246,7 +246,6 @@ def movementDetec(e):
         z = z_tmp
 
 
-        
 if __name__ == '__main__':
     arrB(False)
     #happyFace(False)
